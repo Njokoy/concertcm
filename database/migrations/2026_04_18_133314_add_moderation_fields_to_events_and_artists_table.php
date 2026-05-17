@@ -6,39 +6,60 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
     {
         Schema::table('events', function (Blueprint $table) {
-            $table->string('label')->nullable(); // Vedette, Certifié, etc.
-            $table->boolean('is_verified')->default(false);
+            if (!Schema::hasColumn('events', 'label')) {
+                $table->string('label')->nullable(); // Vedette, Certifié, etc.
+            }
+            if (!Schema::hasColumn('events', 'is_verified')) {
+                $table->boolean('is_verified')->default(false);
+            }
         });
 
         Schema::table('concerts', function (Blueprint $table) {
-            $table->string('label')->nullable();
-            $table->boolean('is_verified')->default(false);
+            if (!Schema::hasColumn('concerts', 'label')) {
+                $table->string('label')->nullable();
+            }
+            if (!Schema::hasColumn('concerts', 'is_verified')) {
+                $table->boolean('is_verified')->default(false);
+            }
         });
 
         Schema::table('artists', function (Blueprint $table) {
-            $table->boolean('is_verified')->default(false);
-            $table->string('verification_badge')->nullable(); // silver, gold, etc.
+            if (!Schema::hasColumn('artists', 'is_verified')) {
+                $table->boolean('is_verified')->default(false);
+            }
+            if (!Schema::hasColumn('artists', 'verification_badge')) {
+                $table->string('verification_badge')->nullable(); // silver, gold, etc.
+            }
         });
     }
 
     public function down(): void
     {
         Schema::table('events', function (Blueprint $table) {
-            $table->dropColumn(['label', 'is_verified']);
+            if (Schema::hasColumn('events', 'label')) {
+                $table->dropColumn('label');
+            }
+            if (Schema::hasColumn('events', 'is_verified')) {
+                $table->dropColumn('is_verified');
+            }
         });
 
         Schema::table('concerts', function (Blueprint $table) {
-            $table->dropColumn(['label', 'is_verified']);
+            if (Schema::hasColumn('concerts', 'label')) {
+                $table->dropColumn('label');
+            }
+            if (Schema::hasColumn('concerts', 'is_verified')) {
+                $table->dropColumn('is_verified');
+            }
         });
 
         Schema::table('artists', function (Blueprint $table) {
-            $table->dropColumn(['is_verified', 'verification_badge']);
+            if (Schema::hasColumn('artists', 'verification_badge')) {
+                $table->dropColumn('verification_badge');
+            }
         });
     }
 };

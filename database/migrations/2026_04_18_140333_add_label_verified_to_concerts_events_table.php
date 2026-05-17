@@ -40,13 +40,25 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('concerts', function (Blueprint $table) {
-            $table->dropColumnIfExists(['label', 'is_verified']);
+            if (Schema::hasColumn('concerts', 'label')) {
+                $table->dropColumn('label');
+            }
+            if (Schema::hasColumn('concerts', 'is_verified')) {
+                $table->dropColumn('is_verified');
+            }
         });
         Schema::table('events', function (Blueprint $table) {
-            $table->dropColumnIfExists(['label', 'is_verified']);
+            if (Schema::hasColumn('events', 'label')) {
+                $table->dropColumn('label');
+            }
+            if (Schema::hasColumn('events', 'is_verified')) {
+                $table->dropColumn('is_verified');
+            }
         });
         Schema::table('artists', function (Blueprint $table) {
-            $table->dropColumnIfExists(['verification_badge']);
+            if (Schema::hasColumn('artists', 'verification_badge')) {
+                $table->dropColumn('verification_badge');
+            }
         });
     }
 };

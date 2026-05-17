@@ -43,7 +43,7 @@
 
 ConcertCM+ utilise une architecture hybride élégante pour relier deux domaines distincts :
 
-```mermaid
+
 graph TD
     A[Utilisateur] -->|S'authentifie| B(Authentification & Rôles Spatie)
     B -->|Admin| C[Tableau de bord Admin]
@@ -55,7 +55,6 @@ graph TD
     H[Événement - Générique] -->|Relation Polymorphique| I[ResourceType (Types de ressources)]
     
     I -->|Génère| J[Billets / Réservations de ressources]
-```
 
 ### Gestion Polymorphique des Ressources
 Pour maintenir une flexibilité maximale, les prix des billets, les catégories et les stands d'exposition sont stockés dans une table unique via une **Relation Polymorphique** (`resourceable`) :
